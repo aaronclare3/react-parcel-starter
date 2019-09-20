@@ -17,7 +17,7 @@ class Description extends React.Component{
     }
     handleSubmit(e){
         e.preventDefault();
-        this.props.startGame();
+        this.props.startGame(null);
         if(this.state.skipDes){
             localStorage.setItem('skipDes', true)
         }else{

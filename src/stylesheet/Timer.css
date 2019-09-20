@@ -19,6 +19,10 @@
     margin: 12px auto 0 auto;
     background-color: rgb(160,82,45);
 }
+.Timer h4{
+    margin: 4px;
+    color: green;
+}
 
 .Timer-clock{
     border: 3px ridge grey;

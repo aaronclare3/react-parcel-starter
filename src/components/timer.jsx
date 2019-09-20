@@ -45,17 +45,19 @@ class Timer extends React.Component{
         const { timerTime } = this.state;
         let centiseconds = ("0" + (Math.floor(timerTime / 10) % 100)).slice(-2);
         let seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
+        let newhigh = seconds > localStorage.getItem('highscore') && "New High score! Keep it going"
         return(
             <div className="Timer">
                 <div className="Timer-clock">
                   <h3>{seconds}:{centiseconds}s</h3>
                 </div>
                 {this.state.timerOn === true && (
-                <button className="Timer-button" onClick={this.stopTimer}>Pause Timer</button>
-                )}
+                  <button className="Timer-button" onClick={this.stopTimer}>Pause Timer</button>
+                  )}
                 {this.state.timerOn === false && this.state.timerTime > 0 && (
-                <button className="Timer-button" onClick={this.startTimer}>Resume</button>
-                )}
+                  <button className="Timer-button" onClick={this.startTimer}>Resume</button>
+                  )}
+                <h4>{newhigh}</h4>
             </div>
         )
     }

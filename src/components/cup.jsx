@@ -6,6 +6,7 @@ import cup_fill_2 from '../assets/cup_fill_2.png';
 import cup_fill_3 from '../assets/cup_fill_3.png';
 import cup_full from '../assets/cup_full.png';
 import cup_too_full from '../assets/cup_too_full.png';
+import { start } from 'repl';
 
 
 
@@ -23,9 +24,19 @@ class Cup extends React.Component{
     emptyCup(){
         this.setState({currImgIdx: 0});
     }
-    cycleImages(){
-        let rand = Math.random() * 1.5;
-        console.log(rand);
+    cycleImages(startNum){
+        startNum++;
+        let speedTime = 2;
+        if(startNum > 10 && startNum < 20){
+            speedTime = 1.5;
+        }else if(startNum > 20 && startNum < 40){
+            speedTime = 1.25;
+        }else if(startNum > 40 && startNum < 60){
+            speedTime = 1;
+        }else if(startNum > 60){
+            speedTime = .60;
+        }
+        let rand = Math.random() * speedTime;
         if(this.state.currImgIdx > 5){
             this.setState({currImgIdx: 5});
             this.props.checkGameOver(true);
@@ -35,25 +46,26 @@ class Cup extends React.Component{
                 currImgIdx: prevState.currImgIdx + 1
             }))
         if(!this.state.killTimeout){
-            setTimeout(this.cycleImages, rand * 1000);
+            setTimeout(this.cycleImages, rand * 1000, startNum);
         }
         }
     }
     componentDidMount(){
-        this.setState({currImgIdx: 0});
-        this.cycleImages();
+        this.setState({currImgIdx: -1});
+        this.cycleImages(1);
     }
+
     componentWillUnmount(){
         this.setState({killTimeout: true})
     }
     render(){
         if(this.props.gameover){
             return(
-                <img src={this.state.images[5]} />
+                <img className="Cup-img" src={this.state.images[5]} />
             )
         }else{
             return(
-                    <img onClick={this.emptyCup} src={this.state.images[this.state.currImgIdx]} />
+                    <img className="Cup-img" onClick={this.emptyCup} src={this.state.images[this.state.currImgIdx]} />
             )
 
         }

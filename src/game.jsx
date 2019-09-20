@@ -35,13 +35,13 @@ class Game extends React.Component{
     }
 
     startGame(num){
-        this.setState({numCups: num})
+        num == null ? "" : this.setState({numCups: num})
         this.setState({gameRunning: true});
         this.setState({description: false});
         this.setState({settings: false});
     }
+
     checkGameOver(status){
-        console.log("in game jsx")
         this.setState({gameRunning: false});
         this.setState({description: false});
         this.setState({settings: false});
@@ -90,10 +90,10 @@ class Game extends React.Component{
         }else if(this.state.gameRunning){
             let cups = []
             for (let i = 0; i < this.state.numCups; ++i){
-                cups.push(<Cup checkGameOver={this.checkGameOver} gameover={false} emptyCup={this.emptyCup}/>)
+                cups.push(<Cup checkGameOver={this.checkGameOver} gameover={false} emptyCup={0}/>)
             }
             return(
-                <div>
+                <div className="Game-running">
                     {cups}
                     <Timer getTime={this.getTime}/>
                 </div>
@@ -108,8 +108,8 @@ class Game extends React.Component{
                     {cups}
                     <Gameover/>
                     <h3>Your Score: {this.state.endtime}s</h3>
-                    <h4>{this.state.newHighScore ? "Woah you beat the high score!!" : "Better Luck Next Time 😢"}</h4>
-                    <h4>{this.state.newHighScore ? "New High Score 💪" : "Current High Score"} : {localStorage.getItem('highscore') == null ? "No high score set" : localStorage.getItem('highscore')+ "s"}</h4>
+                    <h4>{this.state.newHighScore ? "Woah you beat the high score 💪" : "Better Luck Next Time 😢"}</h4>
+                    <h4>{this.state.newHighScore ? "New High Score" : "Current High Score"} : {localStorage.getItem('highscore') == null ? "No high score set" : localStorage.getItem('highscore')+ "s"}</h4>
                     <button className="Game-button" onClick={this.resetGame}>Retry</button>
                     <button className="Game-button" onClick={this.changeSettings}>Change Settings</button>
                 </div>
