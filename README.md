@@ -1,25 +1,18 @@
-# react-parcel-starter
+WELCOME TO THE COFFEE GAME!!!
 
-A React parcel starter project
+## FOR USE ##
+FORK (OR CLONE) THE REPO
+RUN 'NPM INSTALL' TO INSTALL DEPENDENCIES
+'NPM START' TO BOOT UP ON LOCALHOST:1234
 
-## What's included
+## PLAY THE GAME ##
 
-- Bundling with parcel
-- Dev server with hot module replacement
-- React 16
-- styled-components
 
-## Usage
+## BUGS THAT COULD BE FIXED ##
+- SERVICE WORKER ON LOCALHOST MAKES IMAGES DISAPPEAR FOR A SPLIT SECOND AFTER YOU LOSE FOR SOME REASON
+- I FIGURED OUT HOW TO PAUSE THE TIMER AND PAUSE THE CUPS SEPERATELY, BUT COULDN'T FIGURE OUT HOW TO COMBINE THEM INTO ONE BUTTON, SO ONLY THE TIMER PAUSES
+- RETRY WORKS MOST OF THE TIME, BUT EVERY ONCE IN A WHILE IT STARTS THE GAME WITH THE CUP ALREADY FULL
 
-### Building
 
-To start the development server with hot module reloading, run:
-
-* `npm start`
-
-To build for production
-
-* first remove the folders `dist` and `.cache`
-* then run: `npm run build`
-
-*Note, parcel is currently unable to support minfication os ES2015 code—github.com/parcel-bundler/parcel/issues/8*
+## RANDOM NOTES ##
+- CUPS FILL FASTER AND FASTER, IT WOULD BE NICE TO HAVE A FASTER SPEED FOR LESS CUPS AND A SLOWER SPEED FOR MORE CUPS
