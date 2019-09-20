@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Settings.css';
+import '../stylesheet/Settings.css';
 
 
 class Settings extends React.Component {
@@ -7,13 +7,13 @@ class Settings extends React.Component {
       super(props);
       this.state = {
           numCups: 1,
-          skipDes: false
         };
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.add = this.add.bind(this);
       this.subtract = this.subtract.bind(this);
+      this.skipTheDes = this.skipTheDes.bind(this);
     }
   
     handleChange(e) {
@@ -22,14 +22,13 @@ class Settings extends React.Component {
   
     handleSubmit(e) {
       e.preventDefault();
-      let x = localStorage.getItem('skipDes') === "true";
-      x ? this.skipTheDes() : this.props.getNumCups(this.state.numCups);
-      x ? console.log("true!") : console.log("false!");
+      let skipDesc = localStorage.getItem('skipDes') === "true";
+      skipDesc ? this.skipTheDes() : this.props.getNumCups(this.state.numCups);
       this.setState({numCups: 1});
     }
 
     skipTheDes(){
-      this.props.startGame();
+      this.props.startGame(this.state.numCups);
     }
 
     add(e){

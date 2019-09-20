@@ -27,6 +27,7 @@ class Timer extends React.Component{
           });
         }, 10);
       };
+
     stopTimer() {
       this.setState({ timerOn: false });
       clearInterval(this.timer);
@@ -45,16 +46,16 @@ class Timer extends React.Component{
         let centiseconds = ("0" + (Math.floor(timerTime / 10) % 100)).slice(-2);
         let seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
         return(
-            <div>
-                {/* <h2>{this.state.counter} s</h2> */}
-                <h3>{seconds}:{centiseconds}s</h3>
+            <div className="Timer">
+                <div className="Timer-clock">
+                  <h3>{seconds}:{centiseconds}s</h3>
+                </div>
                 {this.state.timerOn === true && (
-                <button className="Timer-button" onClick={this.stopTimer}>Pause</button>
+                <button className="Timer-button" onClick={this.stopTimer}>Pause Timer</button>
                 )}
                 {this.state.timerOn === false && this.state.timerTime > 0 && (
                 <button className="Timer-button" onClick={this.startTimer}>Resume</button>
                 )}
-                {/* <button onClick={this.pauseTimer}>Pause</button> */}
             </div>
         )
     }

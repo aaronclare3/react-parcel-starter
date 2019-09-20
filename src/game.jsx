@@ -17,15 +17,14 @@ class Game extends React.Component{
             gameRunning: false,
             settings: true,
             description: false,
-            counter: 0,
             endtime: 0,
+            newHighScore: false,
         }
         this.getNumCups = this.getNumCups.bind(this);
         this.startGame = this.startGame.bind(this);
         this.checkGameOver = this.checkGameOver.bind(this);
         this.resetGame = this.resetGame.bind(this);
         this.changeSettings = this.changeSettings.bind(this);
-        this.speedGame = this.speedGame.bind(this);
         this.getTime = this.getTime.bind(this);
     }
 
@@ -35,7 +34,8 @@ class Game extends React.Component{
         this.setState({settings: false});
     }
 
-    startGame(){
+    startGame(num){
+        this.setState({numCups: num})
         this.setState({gameRunning: true});
         this.setState({description: false});
         this.setState({settings: false});
@@ -62,17 +62,21 @@ class Game extends React.Component{
         this.setState({overflow: false});
         this.setState({gameOver: false});
     }
-    speedGame(){
-        this.setState(prevState => {
-            counter: prevState.counter + 1
-        })
-    }
-    getTime(seconds,milli){
-        this.setState({
-            endtime: `${seconds}:${milli}`
-        })
-    }
 
+    getTime(seconds,milli){
+        let getHighScore = localStorage.getItem('highscore');
+        this.setState({
+            endtime: `${seconds}:${milli}`, newHighScore: false
+        })
+        
+        if(getHighScore == null){
+            localStorage.setItem('highscore', seconds);
+            this.setState({newHighScore: true})
+        }else if(seconds > getHighScore){
+            this.setState({newHighScore: true})
+            localStorage.setItem('highscore', seconds)
+        }
+    }
 
     render(){
         if(this.state.settings){
@@ -104,6 +108,8 @@ class Game extends React.Component{
                     {cups}
                     <Gameover/>
                     <h3>Your Score: {this.state.endtime}s</h3>
+                    <h4>{this.state.newHighScore ? "Woah you beat the high score!!" : "Better Luck Next Time 😢"}</h4>
+                    <h4>{this.state.newHighScore ? "New High Score 💪" : "Current High Score"} : {localStorage.getItem('highscore') == null ? "No high score set" : localStorage.getItem('highscore')+ "s"}</h4>
                     <button className="Game-button" onClick={this.resetGame}>Retry</button>
                     <button className="Game-button" onClick={this.changeSettings}>Change Settings</button>
                 </div>
