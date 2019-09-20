@@ -6,7 +6,8 @@ class Settings extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-          numCups: 1
+          numCups: 1,
+          skipDes: false
         };
   
       this.handleChange = this.handleChange.bind(this);
@@ -21,8 +22,14 @@ class Settings extends React.Component {
   
     handleSubmit(e) {
       e.preventDefault();
-      this.props.getNumCups(this.state.numCups);
+      let x = localStorage.getItem('skipDes') === "true";
+      x ? this.skipTheDes() : this.props.getNumCups(this.state.numCups);
+      x ? console.log("true!") : console.log("false!");
       this.setState({numCups: 1});
+    }
+
+    skipTheDes(){
+      this.props.startGame();
     }
 
     add(e){

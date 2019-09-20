@@ -21,7 +21,7 @@ class Game extends React.Component{
             endtime: 0,
         }
         this.getNumCups = this.getNumCups.bind(this);
-        this.showDes = this.showDes.bind(this);
+        this.startGame = this.startGame.bind(this);
         this.checkGameOver = this.checkGameOver.bind(this);
         this.resetGame = this.resetGame.bind(this);
         this.changeSettings = this.changeSettings.bind(this);
@@ -35,9 +35,10 @@ class Game extends React.Component{
         this.setState({settings: false});
     }
 
-    showDes(show){
+    startGame(){
         this.setState({gameRunning: true});
         this.setState({description: false});
+        this.setState({settings: false});
     }
     checkGameOver(status){
         console.log("in game jsx")
@@ -76,11 +77,11 @@ class Game extends React.Component{
     render(){
         if(this.state.settings){
             return(
-                <Settings getNumCups={this.getNumCups}/>
+                <Settings startGame={this.startGame} getNumCups={this.getNumCups}/>
             )
         }else if(this.state.description){
             return(
-                <Description showDes={this.showDes}/>
+                <Description startGame={this.startGame}/>
             )
         }else if(this.state.gameRunning){
             let cups = []
@@ -102,10 +103,9 @@ class Game extends React.Component{
                 <div>
                     {cups}
                     <Gameover/>
-                    {/* <Timer getTime={this.getTime} stopTimer={true} /> */}
                     <h3>Your Score: {this.state.endtime}s</h3>
-                    <button className="Game-button" onClick={this.resetGame}>Retry?</button>
-                    <button className="Game-button" onClick={this.changeSettings}>Change Settings?</button>
+                    <button className="Game-button" onClick={this.resetGame}>Retry</button>
+                    <button className="Game-button" onClick={this.changeSettings}>Change Settings</button>
                 </div>
             )
         }else{
