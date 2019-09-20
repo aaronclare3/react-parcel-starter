@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import '../stylesheet/Description.css';
 
 
 
@@ -28,7 +29,7 @@ class Description extends React.Component{
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="showDes">Don't show this description again</label>
                     <input type="checkbox" name="showDes" id="showDes"/>
-                    <button>Start</button>
+                    <button className="Description-button">Start</button>
                 </form>
             </div>
         )

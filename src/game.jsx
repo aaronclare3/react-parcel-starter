@@ -4,6 +4,7 @@ import Gameover from './components/Gameover';
 import Timer from './components/Timer';
 import Description from './components/Description';
 import Settings from './components/Settings';
+import './stylesheet/Game.css';
 
 
 class Game extends React.Component{
@@ -17,6 +18,7 @@ class Game extends React.Component{
             settings: true,
             description: false,
             counter: 0,
+            endtime: 0,
         }
         this.getNumCups = this.getNumCups.bind(this);
         this.showDes = this.showDes.bind(this);
@@ -24,6 +26,7 @@ class Game extends React.Component{
         this.resetGame = this.resetGame.bind(this);
         this.changeSettings = this.changeSettings.bind(this);
         this.speedGame = this.speedGame.bind(this);
+        this.getTime = this.getTime.bind(this);
     }
 
     getNumCups(num){
@@ -63,6 +66,11 @@ class Game extends React.Component{
             counter: prevState.counter + 1
         })
     }
+    getTime(seconds,milli){
+        this.setState({
+            endtime: `${seconds}:${milli}`
+        })
+    }
 
 
     render(){
@@ -77,12 +85,12 @@ class Game extends React.Component{
         }else if(this.state.gameRunning){
             let cups = []
             for (let i = 0; i < this.state.numCups; ++i){
-                cups.push(<Cup checkGameOver={this.checkGameOver} emptyCup={this.emptyCup}/>)
+                cups.push(<Cup checkGameOver={this.checkGameOver} gameover={false} emptyCup={this.emptyCup}/>)
             }
             return(
                 <div>
                     {cups}
-                    <Timer/>
+                    <Timer getTime={this.getTime}/>
                 </div>
             )
         }else if(this.state.overflow){
@@ -94,9 +102,10 @@ class Game extends React.Component{
                 <div>
                     {cups}
                     <Gameover/>
-                    <Timer/>
-                    <button onClick={this.resetGame}>Retry?</button>
-                    <button onClick={this.changeSettings}>Change Settings?</button>
+                    {/* <Timer getTime={this.getTime} stopTimer={true} /> */}
+                    <h3>Your Score: {this.state.endtime}s</h3>
+                    <button className="Game-button" onClick={this.resetGame}>Retry?</button>
+                    <button className="Game-button" onClick={this.changeSettings}>Change Settings?</button>
                 </div>
             )
         }else{

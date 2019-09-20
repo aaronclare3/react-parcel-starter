@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import '../stylesheet/Timer.css';
 
 
 
@@ -31,14 +32,14 @@ class Timer extends React.Component{
       clearInterval(this.timer);
     };
   
-
     componentDidMount(){
-      this.startTimer();
+        this.startTimer();
+    }
+    componentWillUnmount(){
+      this.props.getTime(("0" + (Math.floor(this.state.timerTime / 1000) % 60)).slice(-2), ("0" + (Math.floor(this.state.timerTime / 1000) % 60)).slice(-2))
+      this.stopTimer();
     }
 
-    componentWillUnmount(){
-        clearInterval(this.timer)
-    }
     render(){
         const { timerTime } = this.state;
         let centiseconds = ("0" + (Math.floor(timerTime / 10) % 100)).slice(-2);
@@ -48,10 +49,10 @@ class Timer extends React.Component{
                 {/* <h2>{this.state.counter} s</h2> */}
                 <h3>{seconds}:{centiseconds}s</h3>
                 {this.state.timerOn === true && (
-                <button onClick={this.stopTimer}>Pause</button>
+                <button className="Timer-button" onClick={this.stopTimer}>Pause</button>
                 )}
                 {this.state.timerOn === false && this.state.timerTime > 0 && (
-                <button onClick={this.startTimer}>Resume</button>
+                <button className="Timer-button" onClick={this.startTimer}>Resume</button>
                 )}
                 {/* <button onClick={this.pauseTimer}>Pause</button> */}
             </div>
