@@ -21,6 +21,7 @@ class Cup extends React.Component{
         this.emptyCup = this.emptyCup.bind(this);
         this.cycleImages = this.cycleImages.bind(this);
     }
+    
     emptyCup(){
         this.setState({currImgIdx: 0});
     }
