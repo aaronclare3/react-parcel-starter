@@ -1,0 +1,39 @@
+.Settings-submit{
+    height: 50px;
+    width: 150px;
+    border-radius: 5px;
+    color: green;
+    display: block;
+    align-content: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.Settings-submit:hover{
+    cursor: pointer;
+    background-color: darkgrey;
+
+}
+
+.Settings {
+    margin: 20px; 
+}
+
+.Settings-input{
+    display: inline-block;
+    margin: 4px;
+}
+
+.Settings-input button{
+    font-size: 25px;
+    vertical-align: middle;
+    margin: 0px 0px 0px 5px;
+}
+
+.Settings input {
+    padding: 4px;
+    width: 100px;
+    height: 30px;
+    border: 1px solid grey;
+    font-size: 20px;
+}

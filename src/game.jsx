@@ -1,102 +1,112 @@
-import React from "react";
-import Cup from "./components/cup.jsx";
-import Settings from "./components/settings.jsx";
-import Description from "./components/description.jsx";
-import styled from "styled-components";
-import "./stylesheet/game.css";
+import React, { Component } from 'react';
+import Cup from './components/Cup';
+import Gameover from './components/Gameover';
+import Timer from './components/Timer';
+import Description from './components/Description';
+import Settings from './components/Settings';
 
-const ColumnFlex = styled.div`
- 	display: flex;
- 	flex-direction: column;
- 	align-items: center;
-`
 
-const CupFlex = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-wrap: wrap;
-`
+class Game extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            numCups: 1,
+            overflow: false,
+            gameOver: false,
+            gameRunning: false,
+            settings: true,
+            description: false,
+            counter: 0,
+        }
+        this.getNumCups = this.getNumCups.bind(this);
+        this.showDes = this.showDes.bind(this);
+        this.checkGameOver = this.checkGameOver.bind(this);
+        this.resetGame = this.resetGame.bind(this);
+        this.changeSettings = this.changeSettings.bind(this);
+        this.speedGame = this.speedGame.bind(this);
+    }
 
-export default class Game extends React.Component{
-	constructor(props){
-		super(props);
-		this.state = {
-			nbCups: 1,
-			noDescription: false,
-			descriptionTime: false,
-			gameTime: false,
-			defaultTimeout: 2000,
-			gameover: false
-		};
-		this.handleStart = this.handleStart.bind(this);
-		this.updateNbCups = this.updateNbCups.bind(this);
-		this.handleGameOver = this.handleGameOver.bind(this);
-	}
+    getNumCups(num){
+        this.setState({numCups: num});
+        this.setState({description: true});
+        this.setState({settings: false});
+    }
 
-	updateNbCups(e){;
-		e.preventDefault();
-		let newVal = e.target.value;
-		this.setState({nbCups: newVal});
-	}
+    showDes(show){
+        this.setState({gameRunning: true});
+        this.setState({description: false});
+    }
+    checkGameOver(status){
+        console.log("in game jsx")
+        this.setState({gameRunning: false});
+        this.setState({description: false});
+        this.setState({settings: false});
+        this.setState({overflow: true});
+        this.setState({gameOver: true});
+    }
+    resetGame(){
+        this.setState({gameRunning: true});
+        this.setState({description: false});
+        this.setState({settings: false});
+        this.setState({overflow: false});
+        this.setState({gameOver: false});
+    }
+    changeSettings(){
+        this.setState({gameRunning: false});
+        this.setState({description: false});
+        this.setState({settings: true});
+        this.setState({overflow: false});
+        this.setState({gameOver: false});
+    }
+    speedGame(){
+        this.setState(prevState => {
+            counter: prevState.counter + 1
+        })
+    }
 
-	renderSettings(){
-		return (
-			<Settings nbCups={this.state.nbCups}
-				handleCupNb={this.updateNbCups}
-				onStart={this.handleStart} />
-		);
-	}
 
-	gameActions(){
-		if (this.state.gameover)
-			return (
-				<ColumnFlex className="columnFlex">
-					<h2>GAME OVER</h2>
-					<button onClick={this.handleStart}>Retry</button>
-					<button onClick={() => this.setState({gameTime: false, descriptionTime: false})}>Change settings</button>
-				</ColumnFlex>
-				);
-		return (
-				<button>Pause</button>
-			);
-	}
-
-	handleGameOver(){
-		this.setState({gameover: true});
-	}
-
-	renderDescription(){
-		return(
-			<Description gameIsNext={true} onStart={(e) => this.handleStart(e, true)} />
-		);
-	}
-
-	handleStart(e, gameTime){
-		this.state.gameover = false;
-		gameTime || localStorage.getItem("noDescription") == "true" ? this.setState({gameTime: true, descriptionTime: false}) : this.setState({gameTime: false, descriptionTime: true});
-	}
-
-	renderCups(){
-		let cups = [];
-		for (var i = 0; i < this.state.nbCups; i++) {
-			cups.push(<Cup handleGameOver={this.handleGameOver} defaultTimeout={this.state.defaultTimeout} />);
-		}
-		return(
-			<CupFlex>
-				{cups}
-			</CupFlex>);
-	}
-	render(){
-		if (this.state.gameTime)
-			return (
-				<ColumnFlex>
-					{this.renderCups()}
-					{this.gameActions()}
-				</ColumnFlex>
-			);
-		if (this.state.descriptionTime)
-			return this.renderDescription();
-		return this.renderSettings();
-	}
+    render(){
+        if(this.state.settings){
+            return(
+                <Settings getNumCups={this.getNumCups}/>
+            )
+        }else if(this.state.description){
+            return(
+                <Description showDes={this.showDes}/>
+            )
+        }else if(this.state.gameRunning){
+            let cups = []
+            for (let i = 0; i < this.state.numCups; ++i){
+                cups.push(<Cup checkGameOver={this.checkGameOver} emptyCup={this.emptyCup}/>)
+            }
+            return(
+                <div>
+                    {cups}
+                    <Timer/>
+                </div>
+            )
+        }else if(this.state.overflow){
+            let cups = []
+            for (let i = 0; i < this.state.numCups; ++i){
+                cups.push(<Cup checkGameOver={this.checkGameOver} gameover={true} emptyCup={5}/>)
+            }
+            return (
+                <div>
+                    {cups}
+                    <Gameover/>
+                    <Timer/>
+                    <button onClick={this.resetGame}>Retry?</button>
+                    <button onClick={this.changeSettings}>Change Settings?</button>
+                </div>
+            )
+        }else{
+            return <h1>Hello there</h1>
+        }
+    }
 }
+
+
+
+
+
+export default Game;
